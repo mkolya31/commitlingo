@@ -1,0 +1,43 @@
+{
+  "name": "commitlingo",
+  "version": "0.1.0",
+  "description": "Multilingual Conventional Commits for AI coding agents",
+  "type": "module",
+  "bin": {
+    "commitlingo": "bin/cli.js"
+  },
+  "files": [
+    "bin",
+    "lib",
+    "docs",
+    "skills/commitlingo",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test",
+    "check": "node scripts/check-package.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "engines": {
+    "node": ">=22.20.0"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mkolya31/commitlingo.git"
+  },
+  "dependencies": {
+    "skills": "1.9.0"
+  },
+  "devDependencies": {
+    "@kolyach/eslint-config": "^1.0.1",
+    "eslint": "^9.39.5",
+    "prettier": "^3.10.1",
+    "typescript": "^5.9.3",
+    "yaml": "2.9.1"
+  }
+}
