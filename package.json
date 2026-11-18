@@ -12,6 +12,7 @@
     "docs",
     "skills/commitlingo",
     "README.md",
+    "README.ru.md",
     "LICENSE"
   ],
   "scripts": {

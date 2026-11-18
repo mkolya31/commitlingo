@@ -1,5 +1,7 @@
 # CommitLingo
 
+[English](README.md) | [Русский](README.ru.md)
+
 Multilingual Conventional Commits for AI coding agents, starting with Codex.
 
 ```text
