@@ -30,6 +30,11 @@ test('real Skills CLI API copies only CommitLingo and preserves consuming-projec
   assert.deepEqual(first.failed, []);
   assert.equal(first.installed.length, 1);
   assert.equal(first.installed[0].scope, 'project');
+  assert.equal(path.basename(first.installed[0].path), 'commitlingo');
+  assert.equal(
+    fs.existsSync(path.join(root, '.agents/skills/commitlingo-skill')),
+    false,
+  );
   assert.ok(
     path
       .resolve(first.installed[0].path)

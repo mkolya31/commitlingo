@@ -79,6 +79,9 @@ export function checkPackage() {
   const pkg = JSON.parse(
     fs.readFileSync(path.join(root, 'package.json'), 'utf8'),
   );
+  assert.equal(pkg.name, 'commitlingo-skill');
+  assert.deepEqual(pkg.bin, { 'commitlingo-skill': 'bin/cli.js' });
+  assert.ok(fs.existsSync(path.join(root, pkg.bin['commitlingo-skill'])));
   assert.match(
     pkg.dependencies.skills,
     /^\d+\.\d+\.\d+$/u,

@@ -27,15 +27,26 @@ test('version-matched update uses Node argument arrays and keeps exact version a
     [
       'exec',
       '--yes',
-      '--package=commitlingo@1.2.3',
+      '--package=commitlingo-skill@1.2.3',
       '--',
-      'commitlingo',
+      'commitlingo-skill',
       '--global',
     ],
   );
   assert.throws(
     () => delegateVersion('1.2.3;echo injected', 'project', root),
     /invalid/u,
+  );
+  delegateVersion('1.2.3', 'project', root);
+  assert.deepEqual(
+    JSON.parse(fs.readFileSync(path.join(root, 'delegated.json'), 'utf8')),
+    [
+      'exec',
+      '--yes',
+      '--package=commitlingo-skill@1.2.3',
+      '--',
+      'commitlingo-skill',
+    ],
   );
   fs.writeFileSync(npmCli, 'process.exitCode = 5;\n');
   assert.throws(() => delegateVersion('1.2.3', 'project', root), /status 5/u);

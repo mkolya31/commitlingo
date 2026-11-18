@@ -1,10 +1,10 @@
 {
-  "name": "commitlingo",
+  "name": "commitlingo-skill",
   "version": "0.1.0",
   "description": "Multilingual Conventional Commits for AI coding agents",
   "type": "module",
   "bin": {
-    "commitlingo": "bin/cli.js"
+    "commitlingo-skill": "bin/cli.js"
   },
   "files": [
     "bin",

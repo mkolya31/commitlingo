@@ -19,7 +19,7 @@ function dependencies() {
       return {
         ok: true,
         json: async () => ({
-          name: 'commitlingo',
+          name: 'commitlingo-skill',
           version: '0.1.0',
           gitHead: sha,
         }),
@@ -47,6 +47,17 @@ test('plain install pins source SHA and targets only project Codex CommitLingo',
   const result = await runInstaller([], fixture.options);
   assert.equal(result.sha, sha);
   assert.equal(result.scope, 'project');
+  assert.deepEqual(
+    fixture.calls.filter((call) => call.fetch).map((call) => call.fetch),
+    [
+      'https://registry.npmjs.org/commitlingo-skill/0.1.0',
+      `https://raw.githubusercontent.com/mkolya31/commitlingo/${sha}/package.json`,
+    ],
+  );
+  assert.equal(
+    fixture.calls.find((call) => call.resolve).resolve,
+    'mkolya31/commitlingo',
+  );
   assert.deepEqual(fixture.calls.find((call) => call.resolve).args, {
     cwd: fixture.options.cwd,
     ref: sha,
@@ -63,7 +74,7 @@ test('global flag is explicit and supported for update of current stable release
   const fixture = dependencies();
   const initialFetch = fixture.options.fetcher;
   fixture.options.fetcher = async (url) =>
-    url.endsWith('/commitlingo')
+    url.endsWith('/commitlingo-skill')
       ? {
           ok: true,
           json: async () => ({ versions: { '0.1.0': {}, '0.2.0-beta.1': {} } }),
@@ -98,7 +109,11 @@ test('version mismatch is rejected before any skill resolution or mutation', asy
   const fixture = dependencies();
   fixture.options.fetcher = async () => ({
     ok: true,
-    json: async () => ({ name: 'commitlingo', version: '9.0.0', gitHead: sha }),
+    json: async () => ({
+      name: 'commitlingo-skill',
+      version: '9.0.0',
+      gitHead: sha,
+    }),
   });
   await assert.rejects(runInstaller([], fixture.options), /metadata/u);
   assert.equal(
@@ -106,6 +121,32 @@ test('version mismatch is rejected before any skill resolution or mutation', asy
     false,
   );
 });
+
+for (const origin of ['registry', 'source']) {
+  test(`old package name in ${origin} metadata is rejected before skill mutation`, async () => {
+    const fixture = dependencies();
+    fixture.options.fetcher = async (url) => ({
+      ok: true,
+      json: async () => ({
+        name:
+          url.startsWith('https://registry.npmjs.org/') ===
+          (origin === 'registry')
+            ? 'commitlingo'
+            : 'commitlingo-skill',
+        version: '0.1.0',
+        gitHead: sha,
+      }),
+    });
+    await assert.rejects(
+      runInstaller([], fixture.options),
+      /metadata|source versions/u,
+    );
+    assert.equal(
+      fixture.calls.some((call) => call.resolve || call.install),
+      false,
+    );
+  });
+}
 
 test('mismatched source commit is rejected and temporary source disposed', async () => {
   const fixture = dependencies();
@@ -152,7 +193,7 @@ test('prereleases and unpinned releases never become implicit installation sourc
   await assert.rejects(
     releaseMetadata('0.1.0', async () => ({
       ok: true,
-      json: async () => ({ name: 'commitlingo', version: '0.1.0' }),
+      json: async () => ({ name: 'commitlingo-skill', version: '0.1.0' }),
     })),
     /gitHead/u,
   );
@@ -160,9 +201,9 @@ test('prereleases and unpinned releases never become implicit installation sourc
 
 test('help, version and invalid arguments perform no network or installation', async () => {
   const fixture = dependencies();
-  assert.match(
+  assert.equal(
     (await runInstaller(['--help'], fixture.options)).help,
-    /--global/u,
+    'npx commitlingo-skill [--global]\nnpx commitlingo-skill update [--global]',
   );
   assert.equal(
     (await runInstaller(['--version'], fixture.options)).version,
@@ -170,7 +211,7 @@ test('help, version and invalid arguments perform no network or installation', a
   );
   await assert.rejects(
     runInstaller(['unknown'], fixture.options),
-    /Use commitlingo/u,
+    /Use commitlingo-skill \[--global\] or commitlingo-skill update/u,
   );
   await assert.rejects(
     runInstaller(['--local'], fixture.options),

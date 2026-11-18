@@ -1,5 +1,20 @@
 # Stable release contract
 
+The npm package and executable are named `commitlingo-skill`; the installed
+skill and GitHub repository retain the name `commitlingo`. Supported commands:
+
+```sh
+npx commitlingo-skill
+npx commitlingo-skill --global
+npx commitlingo-skill update
+npx commitlingo-skill update --global
+```
+
+The first package version remains `0.1.0`. After verification and pushing the
+release commit to GitHub, publish from that revision using `npm publish`.
+Publishing is a separate action. An npm lookup returning E404 does not guarantee
+that a name is publishable: npm may reject it for similarity to an existing name.
+
 This repository prepares a package; publishing is a separate action. Release
 from a clean committed revision whose `package.json` contains the intended
 stable version. The npm registry's version metadata must contain the full

@@ -17,10 +17,10 @@ Requires Node.js 22.20 or newer, Git, and Codex. The npm package is prepared for
 release; the following package-runner commands become available after publication:
 
 ```sh
-npx commitlingo
-npx commitlingo --global
-npx commitlingo update
-npx commitlingo update --global
+npx commitlingo-skill
+npx commitlingo-skill --global
+npx commitlingo-skill update
+npx commitlingo-skill update --global
 ```
 
 Without `--global`, installation/update targets the current project. Global
