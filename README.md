@@ -107,9 +107,10 @@ Behavior and language are evaluated separately through reproducible Codex
 scenarios; no API key is required. CI runs automated checks on Windows, macOS,
 and Linux. A local development CLI is available through `node bin/cli.js --help`.
 
-The project uses OpenSpec (`spec-driven`). Planning artifacts and task progress
-are under `openspec/changes/create-commitlingo-skill/`; use the checked-in
-OpenSpec skills for apply, review, and archive. Without a global CLI:
+The project uses OpenSpec (`spec-driven`). Current specifications are under
+`openspec/specs/`. The completed implementation plan is archived under
+`openspec/changes/archive/2026-11-18-create-commitlingo-skill/`; use the checked-in
+OpenSpec skills for future changes. Without a global CLI:
 
 ```sh
 npx --yes @fission-ai/openspec@2.1.0 validate --all
